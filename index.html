@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S-CLASS / Jornada de Evolução</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0b0c10;
+            color: #f0f0f0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            letter-spacing: 3px;
+            color: #ff0055;
+            text-shadow: 0 0 12px rgba(255, 0, 85, 0.6);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            font-weight: 900;
+        }
+
+        header p {
+            color: #8f92a1;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+        }
+
+        #feed-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .story-container {
+            max-width: 550px;
+            width: 100%;
+            background: #12131c;
+            border: 1px solid #ff005544;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            margin-bottom: 35px;
+        }
+
+        /* Container de Mídia (Imagem/GIF) */
+        .media-box {
+            width: 100%;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .media-box img {
+            width: 100%;
+            max-height: 600px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Container de Vídeo (.mp4) */
+        .video-box {
+            width: 100%;
+            background: #000;
+            display: flex;
+            justify-content: center;
+        }
+
+        .video-box video {
+            width: 100%;
+            max-height: 650px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .story-content {
+            padding: 22px;
+            text-align: left;
+        }
+
+        .tag-nivel {
+            display: inline-block;
+            background: rgba(255, 0, 85, 0.15);
+            color: #ff0055;
+            border: 1px solid #ff0055;
+            padding: 4px 12px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .story-content h2 {
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .story-content blockquote {
+            font-style: italic;
+            color: #ffd700;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-left: 3px solid #ffd700;
+            padding-left: 12px;
+            margin: 14px 0;
+        }
+
+        .story-content p {
+            color: #a0a5c0;
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>⚡ S-CLASS / SPECIAL</h1>
+        <p>A história de quem cria as próprias regras e brilha em alto nível.</p>
+    </header>
+
+    <div id="feed-container"></div>
+
+    <script>
+        // Lê o arquivo json de vídeos/fotos
+        fetch('videos.json')
+            .then(response => response.json())
+            .then(itens => {
+                const container = document.getElementById('feed-container');
+                
+                itens.forEach(item => {
+                    const storyDiv = document.createElement('div');
+                    storyDiv.className = 'story-container';
+                    
+                    let htmlMidia = '';
+
+                    // 1. Se tiver IMAGEM (.jpg, .png, .gif) renderiza a tag <img>
+                    if (item.imagem) {
+                        htmlMidia += `
+                            <div class="media-box">
+                                <img src="${item.imagem}" alt="Mídia Mai">
+                            </div>
+                        `;
+                    }
+
+                    // 2. Se tiver VÍDEO (.mp4) renderiza o player de <video>
+                    if (item.src) {
+                        htmlMidia += `
+                            <div class="video-box">
+                                <video controls loop playsinline>
+                                    <source src="${item.src}" type="video/mp4">
+                                    Seu navegador não suporta vídeos.
+                                </video>
+                            </div>
+                        `;
+                    }
+
+                    // Monta o Card completo com texto e mídia
+                    storyDiv.innerHTML = `
+                        ${htmlMidia}
+                        <div class="story-content">
+                            <span class="tag-nivel">${item.nivel || 'RANK: S-CLASS'}</span>
+                            <h2>${item.titulo}</h2>
+                            <blockquote>"${item.citacao}"</blockquote>
+                            <p>${item.descricao}</p>
+                        </div>
+                    `;
+                    
+                    container.appendChild(storyDiv);
+                });
+            })
+            .catch(error => console.error('Erro ao carregar os dados:', error));
+    </script>
+
+</body>
+</html>
