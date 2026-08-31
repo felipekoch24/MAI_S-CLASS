@@ -18,27 +18,76 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 30px 15px;
+            padding: 20px 15px 40px 15px;
+        }
+
+        /* Barra de Ações Rápidas no Topo */
+        .top-action-bar {
+            width: 100%;
+            max-width: 550px;
+            background: #12131c;
+            border: 1px solid #ff005544;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
+            text-align: center;
+        }
+
+        .top-action-bar p {
+            color: #a0a5c0;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .whatsapp-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .wa-btn {
+            background: rgba(255, 0, 85, 0.1);
+            color: #ff0055;
+            border: 1px solid #ff0055;
+            padding: 8px 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .wa-btn:hover {
+            background: #ff0055;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(255, 0, 85, 0.5);
         }
 
         header {
             text-align: center;
-            margin-bottom: 35px;
+            margin-bottom: 25px;
         }
 
         header h1 {
-            font-size: 2rem;
+            font-size: 1.8rem;
             letter-spacing: 3px;
             color: #ff0055;
             text-shadow: 0 0 12px rgba(255, 0, 85, 0.6);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             text-transform: uppercase;
             font-weight: 900;
         }
 
         header p {
             color: #8f92a1;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             letter-spacing: 1px;
         }
 
@@ -60,7 +109,6 @@
             margin-bottom: 35px;
         }
 
-        /* Container de Mídia (Imagem/GIF) */
         .media-box {
             width: 100%;
             background: #000;
@@ -76,7 +124,6 @@
             display: block;
         }
 
-        /* Container de Vídeo (.mp4) */
         .video-box {
             width: 100%;
             background: #000;
@@ -136,6 +183,15 @@
 </head>
 <body>
 
+    <div class="top-action-bar">
+        <p>FALE COMIGO (MAI S-CLASS)</p>
+        <div class="whatsapp-buttons">
+            <a href="https://wa.me/5551995830380?text=Oi%20vim%20do%20apk%20MAI%20S-CLASS%20gostaria%20de%20dar%20a%20sugest%C3%A3o%20de%20uma%20melhoria%20em%3A%20" class="wa-btn" target="_blank">⚡ Sugestão / Upgrade</a>
+            <a href="https://wa.me/5551995830380?text=Oi%20vim%20do%20apk%20MAI%20S-CLASS%20gostaria%20de%20dizer%20que%20est%C3%A1%20muito%20bom%20o%20projeto%20em%3A%20" class="wa-btn" target="_blank">🔥 Elogio</a>
+            <a href="https://wa.me/5551995830380?text=Oi%20vim%20do%20apk%20MAI%20S-CLASS%20e%20estou%20reclamando%20pq%20n%C3%A3o%20est%C3%A1%20bom%20em%3A%20" class="wa-btn" target="_blank">⚠️ Reclamação</a>
+        </div>
+    </div>
+
     <header>
         <h1>⚡ S-CLASS / SPECIAL</h1>
         <p>A história de quem cria as próprias regras e brilha em alto nível.</p>
@@ -144,7 +200,6 @@
     <div id="feed-container"></div>
 
     <script>
-        // Lê o arquivo json de vídeos/fotos
         fetch('videos.json')
             .then(response => response.json())
             .then(itens => {
@@ -156,7 +211,6 @@
                     
                     let htmlMidia = '';
 
-                    // 1. Se tiver IMAGEM (.jpg, .png, .gif) renderiza a tag <img>
                     if (item.imagem) {
                         htmlMidia += `
                             <div class="media-box">
@@ -165,7 +219,6 @@
                         `;
                     }
 
-                    // 2. Se tiver VÍDEO (.mp4) renderiza o player de <video>
                     if (item.src) {
                         htmlMidia += `
                             <div class="video-box">
@@ -177,7 +230,6 @@
                         `;
                     }
 
-                    // Monta o Card completo com texto e mídia
                     storyDiv.innerHTML = `
                         ${htmlMidia}
                         <div class="story-content">
