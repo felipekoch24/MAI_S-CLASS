@@ -21,6 +21,53 @@
             padding: 20px 15px 40px 15px;
         }
 
+        /* --- SISTEMA DE ABAS --- */
+        .tabs-container {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            max-width: 550px;
+            width: 100%;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background-color: #12131c;
+            color: #a0a5c0;
+            border: 1px solid #ff005544;
+            padding: 10px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover {
+            color: #fff;
+            border-color: #ff0055;
+        }
+
+        .tab-btn.active {
+            background-color: #ff0055;
+            color: #fff;
+            border-color: #ff0055;
+            box-shadow: 0 0 12px rgba(255, 0, 85, 0.6);
+        }
+
+        .tab-content {
+            display: none;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .tab-content.active {
+            display: flex;
+        }
+
         /* Barra de Ações Rápidas no Topo */
         .top-action-bar {
             width: 100%;
@@ -91,7 +138,7 @@
             letter-spacing: 1px;
         }
 
-        #feed-container {
+        #feed-container, #recent-container {
             width: 100%;
             display: flex;
             flex-direction: column;
@@ -215,80 +262,115 @@
 </head>
 <body>
 
-    <div class="top-action-bar">
-        <p>FALE COMIGO (S-CLASS EDITION)</p>
-        <div class="whatsapp-buttons">
-            <a href="https://wa.me/5551995830380?text=Oi%20vim%20do%20apk%20S-CLASS%20gostaria%20de%20dar%20a%20sugest%C3%A3o%20de%20uma%20melhoria%20em%3A%20" class="wa-btn" target="_blank">⚡ Sugestão / Upgrade</a>
-            <a href="https://wa.me/5551995830380?text=Oi%20vim%20do%20apk%20S-CLASS%20gostaria%20de%20dizer%20que%20est%C3%A1%20muito%20bom%20o%20projeto%20em%3A%20" class="wa-btn" target="_blank">🔥 Elogio</a>
-            <a href="https://wa.me/5551995830380?text=Oi%20vim%20do%20apk%20S-CLASS%20e%20estou%20reclamando%20pq%20n%C3%A3o%20est%C3%A1%20bom%20em%3A%20" class="wa-btn" target="_blank">⚠️ Reclamação</a>
-        </div>
-    </div>
-
     <header>
         <h1>⚡ S-CLASS / STRAY KIDS</h1>
         <p>A força de quem faz acontecer no estilo S-Class.</p>
     </header>
 
-    <div id="feed-container"></div>
+    <!-- SISTEMA DE ABAS -->
+    <div class="tabs-container">
+        <button class="tab-btn active" onclick="mudarAba('todos', this)">TODOS</button>
+        <button class="tab-btn" onclick="mudarAba('recentes', this)">RECENTES</button>
+        <button class="tab-btn" onclick="mudarAba('suporte', this)">SUPORTE</button>
+    </div>
 
-    <!-- SEÇÃO SUPORTE / DESENVOLVEDOR -->
-    <section class="dev-section">
-        <img src="dev.png" alt="Desenvolvedor" class="dev-avatar" onerror="this.style.display='none'">
-        <p>
-            Oi maninha, aqui é teu mano desenvolvedor, espero que esteja curtindo a experiência e meu coração fica quentinho de saber que o que fiz tem valor pra ti, aproveita, qualquer coisa que quiser que eu melhore só me mandar clicando no botão abaixo.<br><br>
-            <strong>Gratidão 🤍</strong><br>
-            No que puder melhorar e ajudar to aqui
-        </p>
-        <div class="whatsapp-buttons">
-            <a href="https://wa.me/5551995830380?text=Oi%20mano,%20vim%20falar%20com%20você%20sobre%20o%20app!" class="wa-btn" target="_blank" style="padding: 10px 18px; font-size: 0.85rem;">💬 Falar com o Desenvolvedor</a>
+    <!-- ABA 1: TODOS -->
+    <div id="aba-todos" class="tab-content active">
+        <div class="top-action-bar">
+            <p>FALE COMIGO (S-CLASS EDITION)</p>
+            <div class="whatsapp-buttons">
+                <a href="https://wa.me/5551995830380?text=Oi%20vim%20do%20apk%20S-CLASS%20gostaria%20de%20dar%20a%20sugest%C3%A3o%20de%20uma%20melhoria%20em%3A%20" class="wa-btn" target="_blank">⚡ Sugestão / Upgrade</a>
+                <a href="https://wa.me/5551995830380?text=Oi%20vim%20do%20apk%20S-CLASS%20gostaria%20de%20dizer%20que%20est%C3%A1%20muito%20bom%20o%20projeto%20em%3A%20" class="wa-btn" target="_blank">🔥 Elogio</a>
+                <a href="https://wa.me/5551995830380?text=Oi%20vim%20do%20apk%20S-CLASS%20e%20estou%20reclamando%20pq%20n%C3%A3o%20est%C3%A1%20bom%20em%3A%20" class="wa-btn" target="_blank">⚠️ Reclamação</a>
+            </div>
         </div>
-    </section>
+        <div id="feed-container"></div>
+    </div>
+
+    <!-- ABA 2: RECENTES -->
+    <div id="aba-recentes" class="tab-content">
+        <div id="recent-container"></div>
+    </div>
+
+    <!-- ABA 3: SUPORTE -->
+    <div id="aba-suporte" class="tab-content">
+        <section class="dev-section">
+            <img src="dev.png" alt="Desenvolvedor" class="dev-avatar" onerror="this.style.display='none'">
+            <p>
+                Oi maninha, aqui é teu mano desenvolvedor, espero que esteja curtindo a experiência e meu coração fica quentinho de saber que o que fiz tem valor pra ti, aproveita, qualquer coisa que quiser que eu melhore só me mandar clicando no botão abaixo.<br><br>
+                <strong>Gratidão 🤍</strong><br>
+                No que puder melhorar e ajudar to aqui
+            </p>
+            <div class="whatsapp-buttons">
+                <a href="https://wa.me/5551995830380?text=Oi%20mano,%20vim%20falar%20com%20você%20sobre%20o%20app!" class="wa-btn" target="_blank" style="padding: 10px 18px; font-size: 0.85rem;">💬 Falar com o Desenvolvedor</a>
+            </div>
+        </section>
+    </div>
 
     <script>
+        function mudarAba(aba, elementoBtn) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            elementoBtn.classList.add('active');
+            document.getElementById('aba-' + aba).classList.add('active');
+        }
+
         fetch('videos.json')
             .then(response => response.json())
             .then(itens => {
                 const container = document.getElementById('feed-container');
+                const recentContainer = document.getElementById('recent-container');
                 
+                // Renderizar TODOS
                 itens.forEach(item => {
-                    const storyDiv = document.createElement('div');
-                    storyDiv.className = 'story-container';
-                    
-                    let htmlMidia = '';
+                    container.appendChild(criarCard(item));
+                });
 
-                    if (item.imagem) {
-                        htmlMidia += `
-                            <div class="media-box">
-                                <img src="${item.imagem}" alt="Mídia S-Class">
-                            </div>
-                        `;
-                    }
-
-                    if (item.src) {
-                        htmlMidia += `
-                            <div class="video-box">
-                                <video controls loop playsinline>
-                                    <source src="${item.src}" type="video/mp4">
-                                    Seu navegador não suporta vídeos.
-                                </video>
-                            </div>
-                        `;
-                    }
-
-                    storyDiv.innerHTML = `
-                        ${htmlMidia}
-                        <div class="story-content">
-                            <span class="tag-nivel">${item.nivel || 'RANK: S-CLASS'}</span>
-                            <h2>${item.titulo}</h2>
-                            <blockquote>"${item.citacao}"</blockquote>
-                            <p>${item.descricao}</p>
-                        </div>
-                    `;
-                    
-                    container.appendChild(storyDiv);
+                // Renderizar RECENTES (últimos 2 itens do JSON)
+                const ultimosItens = [...itens].reverse().slice(0, 2);
+                ultimosItens.forEach(item => {
+                    recentContainer.appendChild(criarCard(item));
                 });
             })
             .catch(error => console.error('Erro ao carregar os dados:', error));
+
+        function criarCard(item) {
+            const storyDiv = document.createElement('div');
+            storyDiv.className = 'story-container';
+            
+            let htmlMidia = '';
+
+            if (item.imagem) {
+                htmlMidia += `
+                    <div class="media-box">
+                        <img src="${item.imagem}" alt="Mídia S-Class">
+                    </div>
+                `;
+            }
+
+            if (item.src) {
+                htmlMidia += `
+                    <div class="video-box">
+                        <video controls loop playsinline>
+                            <source src="${item.src}" type="video/mp4">
+                            Seu navegador não suporta vídeos.
+                        </video>
+                    </div>
+                `;
+            }
+
+            storyDiv.innerHTML = `
+                ${htmlMidia}
+                <div class="story-content">
+                    <span class="tag-nivel">${item.nivel || 'RANK: S-CLASS'}</span>
+                    <h2>${item.titulo}</h2>
+                    <blockquote>"${item.citacao}"</blockquote>
+                    <p>${item.descricao}</p>
+                </div>
+            `;
+            return storyDiv;
+        }
     </script>
 
 </body>
