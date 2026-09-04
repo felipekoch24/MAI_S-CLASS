@@ -4,261 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>S-CLASS / Stray Kids Edition</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background-color: #0b0c10;
-            color: #f0f0f0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px 15px 40px 15px;
-        }
-
-        /* --- SISTEMA DE ABAS --- */
-        .tabs-container {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            max-width: 550px;
-            width: 100%;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-        }
-
-        .tab-btn {
-            background-color: #12131c;
-            color: #a0a5c0;
-            border: 1px solid #ff005544;
-            padding: 10px 14px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-family: inherit;
-            font-weight: bold;
-            font-size: 0.8rem;
-            transition: all 0.2s;
-        }
-
-        .tab-btn:hover {
-            color: #fff;
-            border-color: #ff0055;
-        }
-
-        .tab-btn.active {
-            background-color: #ff0055;
-            color: #fff;
-            border-color: #ff0055;
-            box-shadow: 0 0 12px rgba(255, 0, 85, 0.6);
-        }
-
-        .tab-content {
-            display: none;
-            width: 100%;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .tab-content.active {
-            display: flex;
-        }
-
-        /* Barra de Ações Rápidas no Topo */
-        .top-action-bar {
-            width: 100%;
-            max-width: 550px;
-            background: #12131c;
-            border: 1px solid #ff005544;
-            border-radius: 12px;
-            padding: 14px;
-            margin-bottom: 25px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
-            text-align: center;
-        }
-
-        .top-action-bar p {
-            color: #a0a5c0;
-            font-size: 0.85rem;
-            margin-bottom: 10px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-
-        .whatsapp-buttons {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .wa-btn {
-            background: rgba(255, 0, 85, 0.1);
-            color: #ff0055;
-            border: 1px solid #ff0055;
-            padding: 8px 12px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            border-radius: 6px;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .wa-btn:hover {
-            background: #ff0055;
-            color: #fff;
-            box-shadow: 0 0 10px rgba(255, 0, 85, 0.5);
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        header h1 {
-            font-size: 1.8rem;
-            letter-spacing: 3px;
-            color: #ff0055;
-            text-shadow: 0 0 12px rgba(255, 0, 85, 0.6);
-            margin-bottom: 6px;
-            text-transform: uppercase;
-            font-weight: 900;
-        }
-
-        header p {
-            color: #8f92a1;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-        }
-
-        #feed-container, #recent-container {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .story-container {
-            max-width: 550px;
-            width: 100%;
-            background: #12131c;
-            border: 1px solid #ff005544;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-            margin-bottom: 35px;
-        }
-
-        .media-box {
-            width: 100%;
-            background: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .media-box img {
-            width: 100%;
-            max-height: 600px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .video-box {
-            width: 100%;
-            background: #000;
-            display: flex;
-            justify-content: center;
-        }
-
-        .video-box video {
-            width: 100%;
-            max-height: 650px;
-            object-fit: contain;
-            display: block;
-        }
-
-        .story-content {
-            padding: 22px;
-            text-align: left;
-        }
-
-        .tag-nivel {
-            display: inline-block;
-            background: rgba(255, 0, 85, 0.15);
-            color: #ff0055;
-            border: 1px solid #ff0055;
-            padding: 4px 12px;
-            font-size: 0.75rem;
-            font-weight: 800;
-            border-radius: 4px;
-            margin-bottom: 12px;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-        }
-
-        .story-content h2 {
-            font-size: 1.3rem;
-            color: #fff;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .story-content blockquote {
-            font-style: italic;
-            color: #ffd700;
-            font-size: 1rem;
-            line-height: 1.5;
-            border-left: 3px solid #ffd700;
-            padding-left: 12px;
-            margin: 14px 0;
-        }
-
-        .story-content p {
-            color: #a0a5c0;
-            font-size: 0.92rem;
-            line-height: 1.6;
-        }
-
-        /* Estilo da Seção de Suporte do Desenvolvedor */
-        .dev-section {
-            max-width: 550px;
-            width: 100%;
-            background: #12131c;
-            border: 1px solid #ff005544;
-            border-radius: 16px;
-            padding: 25px 20px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-            margin-top: 10px;
-            margin-bottom: 25px;
-        }
-
-        .dev-avatar {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #ff0055;
-            margin-bottom: 15px;
-            box-shadow: 0 0 15px rgba(255, 0, 85, 0.4);
-        }
-
-        .dev-section p {
-            color: #d0d2e0;
-            font-size: 0.92rem;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -295,7 +41,7 @@
     <!-- ABA 3: SUPORTE -->
     <div id="aba-suporte" class="tab-content">
         <section class="dev-section">
-            <img src="dev.png" alt="Desenvolvedor" class="dev-avatar" onerror="this.style.display='none'">
+            <img src="dev.png" alt="Desenvolvedor" class="dev-avatar" id="devPhoto" onerror="this.style.display='none'">
             <p>
                 Oi maninha, aqui é teu mano desenvolvedor, espero que esteja curtindo a experiência e meu coração fica quentinho de saber que o que fiz tem valor pra ti, aproveita, qualquer coisa que quiser que eu melhore só me mandar clicando no botão abaixo.<br><br>
                 <strong>Gratidão 🤍</strong><br>
@@ -307,6 +53,11 @@
         </section>
     </div>
 
+    <!-- MODAL PARA ABRIR A FOTO GRANDE -->
+    <div class="modal-overlay" id="imageModal" onclick="fecharModal()">
+        <img class="modal-content" id="modalImg" alt="Foto Ampliada">
+    </div>
+
     <script>
         function mudarAba(aba, elementoBtn) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -316,18 +67,32 @@
             document.getElementById('aba-' + aba).classList.add('active');
         }
 
+        // Lógica do Modal de Zoom na Foto de Suporte
+        const devPhoto = document.getElementById('devPhoto');
+        const imageModal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImg');
+
+        if (devPhoto) {
+            devPhoto.addEventListener('click', () => {
+                modalImg.src = devPhoto.src;
+                imageModal.classList.add('active');
+            });
+        }
+
+        function fecharModal() {
+            imageModal.classList.remove('active');
+        }
+
         fetch('videos.json')
             .then(response => response.json())
             .then(itens => {
                 const container = document.getElementById('feed-container');
                 const recentContainer = document.getElementById('recent-container');
                 
-                // Renderizar TODOS
                 itens.forEach(item => {
                     container.appendChild(criarCard(item));
                 });
 
-                // Renderizar RECENTES (últimos 2 itens do JSON)
                 const ultimosItens = [...itens].reverse().slice(0, 2);
                 ultimosItens.forEach(item => {
                     recentContainer.appendChild(criarCard(item));
@@ -352,7 +117,7 @@
             if (item.src) {
                 htmlMidia += `
                     <div class="video-box">
-                        <video controls loop playsinline>
+                        <video loop playsinline preload="metadata">
                             <source src="${item.src}" type="video/mp4">
                             Seu navegador não suporta vídeos.
                         </video>
@@ -369,6 +134,29 @@
                     <p>${item.descricao}</p>
                 </div>
             `;
+
+            // Configurar comportamento customizado do vídeo (Toca ao clicar, loop infinito, pausa ao clicar de novo ou em outro)
+            const videoBox = storyDiv.querySelector('.video-box');
+            if (videoBox) {
+                const video = videoBox.querySelector('video');
+                
+                videoBox.addEventListener('click', () => {
+                    // Pausa todos os outros vídeos da página primeiro
+                    document.querySelectorAll('video').forEach(v => {
+                        if (v !== video) {
+                            v.pause();
+                        }
+                    });
+
+                    // Alterna o estado atual do vídeo clicado
+                    if (video.paused) {
+                        video.play();
+                    } else {
+                        video.pause();
+                    }
+                });
+            }
+
             return storyDiv;
         }
     </script>
