@@ -14,40 +14,96 @@ body {
     padding: 20px 15px 40px 15px;
 }
 
-/* --- SISTEMA DE ABAS --- */
+/* --- SISTEMA DE ABAS (ESTILO PAINEL GRANDE) --- */
 .tabs-container {
     display: flex;
-    justify-content: center;
-    gap: 8px;
+    flex-direction: column;
+    gap: 12px;
     max-width: 550px;
     width: 100%;
     margin-bottom: 25px;
-    flex-wrap: wrap;
 }
 
 .tab-btn {
-    background-color: #12131c;
+    background: #12131c;
     color: #a0a5c0;
-    border: 1px solid #ff005544;
-    padding: 10px 14px;
-    border-radius: 20px;
+    border: 1px solid rgba(255, 0, 85, 0.3);
+    padding: 14px 18px;
+    border-radius: 14px;
     cursor: pointer;
     font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+.tab-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-align: left;
+}
+
+.tab-icon {
+    font-size: 1.5rem;
+}
+
+.tab-text-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.tab-title {
+    font-size: 1rem;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.tab-subtitle {
+    font-size: 0.7rem;
+    color: #8f92a1;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 2px;
+}
+
+.tab-arrow {
+    font-size: 1.1rem;
+    color: #ff0055;
     font-weight: bold;
-    font-size: 0.8rem;
-    transition: all 0.2s;
+    opacity: 0.7;
+    transition: transform 0.2s;
 }
 
 .tab-btn:hover {
-    color: #fff;
     border-color: #ff0055;
+    background: #161824;
+}
+
+.tab-btn:hover .tab-arrow {
+    transform: translateX(3px);
+    opacity: 1;
 }
 
 .tab-btn.active {
-    background-color: #ff0055;
-    color: #fff;
+    background: linear-gradient(135deg, #181926 0%, #12131c 100%);
     border-color: #ff0055;
-    box-shadow: 0 0 12px rgba(255, 0, 85, 0.6);
+    box-shadow: 0 0 18px rgba(255, 0, 85, 0.4), inset 0 0 10px rgba(255, 0, 85, 0.15);
+}
+
+.tab-btn.active .tab-title {
+    color: #ff0055;
+    text-shadow: 0 0 8px rgba(255, 0, 85, 0.5);
+}
+
+.tab-btn.active .tab-arrow {
+    opacity: 1;
 }
 
 .tab-content {
@@ -61,53 +117,93 @@ body {
     display: flex;
 }
 
-/* Barra de Ações Rápidas no Topo */
+/* Barra de Ações Rápidas no Topo (Estilo Painel Moderno) */
 .top-action-bar {
     width: 100%;
     max-width: 550px;
     background: #12131c;
-    border: 1px solid #ff005544;
-    border-radius: 12px;
-    padding: 14px;
+    border: 1px solid rgba(255, 0, 85, 0.3);
+    border-radius: 16px;
+    padding: 16px;
     margin-bottom: 25px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.7);
     text-align: center;
 }
 
 .top-action-bar p {
-    color: #a0a5c0;
+    color: #fff;
     font-size: 0.85rem;
-    margin-bottom: 10px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
+    margin-bottom: 14px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
 }
 
 .whatsapp-buttons {
     display: flex;
-    gap: 8px;
+    flex-direction: column;
+    gap: 10px;
     justify-content: center;
-    flex-wrap: wrap;
 }
 
 .wa-btn {
-    background: rgba(255, 0, 85, 0.1);
-    color: #ff0055;
-    border: 1px solid #ff0055;
-    padding: 8px 12px;
-    font-size: 0.75rem;
+    background: #161824;
+    color: #f0f0f0;
+    border: 1px solid rgba(255, 0, 85, 0.3);
+    padding: 12px 14px;
+    font-size: 0.8rem;
     font-weight: 700;
-    border-radius: 6px;
+    border-radius: 12px;
     text-decoration: none;
     transition: all 0.2s ease;
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 5px;
+    justify-content: space-between;
+}
+
+.wa-btn-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
+}
+
+.wa-icon {
+    font-size: 1.1rem;
+}
+
+.wa-text-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.wa-title {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #ff0055;
+    letter-spacing: 0.5px;
+}
+
+.wa-subtitle {
+    font-size: 0.68rem;
+    color: #8f92a1;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+
+.wa-arrow {
+    color: #ff0055;
+    font-weight: bold;
+    font-size: 1rem;
 }
 
 .wa-btn:hover {
-    background: #ff0055;
-    color: #fff;
-    box-shadow: 0 0 10px rgba(255, 0, 85, 0.5);
+    background: rgba(255, 0, 85, 0.12);
+    border-color: #ff0055;
+    box-shadow: 0 0 12px rgba(255, 0, 85, 0.3);
 }
 
 header {
@@ -122,7 +218,7 @@ header {
     width: 100%;
     border-radius: 16px;
     overflow: hidden;
-    border: 2px solid #ff005544;
+    border: 2px solid rgba(255, 0, 85, 0.3);
     box-shadow: 0 5px 20px rgba(255, 0, 85, 0.3);
     cursor: pointer;
     margin-bottom: 15px;
@@ -169,7 +265,7 @@ header p {
     max-width: 550px;
     width: 100%;
     background: #12131c;
-    border: 1px solid #ff005544;
+    border: 1px solid rgba(255, 0, 85, 0.3);
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
@@ -254,7 +350,7 @@ header p {
     max-width: 550px;
     width: 100%;
     background: #12131c;
-    border: 1px solid #ff005544;
+    border: 1px solid rgba(255, 0, 85, 0.3);
     border-radius: 16px;
     padding: 25px 20px;
     text-align: center;
@@ -287,7 +383,7 @@ header p {
     text-align: center;
 }
 
-/* --- MODAL PARA ABRIR IMAGENS MAIOR COM BOTÃO DE FECHAR --- */
+/* --- MODAL COM BOTÃO DE FECHAR --- */
 .modal-overlay {
     position: fixed;
     top: 0;
