@@ -14,24 +14,78 @@
             <img src="topo.png" alt="Banner S-Class" class="header-banner" onerror="this.parentElement.style.display='none'">
         </div>
         <h1>⚡ S-CLASS / STRAY KIDS</h1>
-        <p>A força de quem faz acontecer no estilo S-Class.</p>
+        <p>A FORÇA de quem faz ACONTECER no estilo S-Class.</p>
     </header>
 
-    <!-- SISTEMA DE ABAS -->
+    <!-- SISTEMA DE ABAS (ESTILO PAINEL GRANDE) -->
     <div class="tabs-container">
-        <button class="tab-btn active" onclick="mudarAba('todos', this)">TODOS</button>
-        <button class="tab-btn" onclick="mudarAba('recentes', this)">RECENTES</button>
-        <button class="tab-btn" onclick="mudarAba('suporte', this)">SUPORTE</button>
+        <button class="tab-btn active" onclick="mudarAba('todos', this)">
+            <div class="tab-info">
+                <span class="tab-icon">🏠</span>
+                <div class="tab-text-box">
+                    <span class="tab-title">TODOS</span>
+                    <span class="tab-subtitle">Explorar conteúdo</span>
+                </div>
+            </div>
+            <span class="tab-arrow">➔</span>
+        </button>
+        <button class="tab-btn" onclick="mudarAba('recentes', this)">
+            <div class="tab-info">
+                <span class="tab-icon">📁</span>
+                <div class="tab-text-box">
+                    <span class="tab-title">RECENTES</span>
+                    <span class="tab-subtitle">Últimos adicionados</span>
+                </div>
+            </div>
+            <span class="tab-arrow">➔</span>
+        </button>
+        <button class="tab-btn" onclick="mudarAba('suporte', this)">
+            <div class="tab-info">
+                <span class="tab-icon">🎧</span>
+                <div class="tab-text-box">
+                    <span class="tab-title">SUPORTE</span>
+                    <span class="tab-subtitle">Ajuda & Contato</span>
+                </div>
+            </div>
+            <span class="tab-arrow">➔</span>
+        </button>
     </div>
 
     <!-- ABA 1: TODOS -->
     <div id="aba-todos" class="tab-content active">
         <div class="top-action-bar">
-            <p>FALE COMIGO (S-CLASS EDITION)</p>
+            <p>💬 FALE COMIGO (S-CLASS EDITION)</p>
             <div class="whatsapp-buttons">
-                <a href="https://wa.me/5551995830380?text=Oi%20vim%20do%20apk%20S-CLASS%20gostaria%20de%20dar%20a%20sugest%C3%A3o%20de%20uma%20melhoria%20em%3A%20" class="wa-btn" target="_blank">⚡ Sugestão / Upgrade</a>
-                <a href="https://wa.me/5551995830380?text=Oi%20vim%20do%20apk%20S-CLASS%20gostaria%20de%20dizer%20que%20est%C3%A1%20muito%20bom%20o%20projeto%20em%3A%20" class="wa-btn" target="_blank">🔥 Elogio</a>
-                <a href="https://wa.me/5551995830380?text=Oi%20vim%20do%20apk%20S-CLASS%20e%20estou%20reclamando%20pq%20n%C3%A3o%20est%C3%A1%20bom%20em%3A%20" class="wa-btn" target="_blank">⚠️ Reclamação</a>
+                <a href="https://wa.me/5551995830380?text=Oi%20vim%20do%20apk%20S-CLASS%20gostaria%20de%20dar%20a%20sugest%C3%A3o%20de%20uma%20melhoria%20em%3A%20" class="wa-btn" target="_blank">
+                    <div class="wa-btn-content">
+                        <span class="wa-icon">⚡</span>
+                        <div class="wa-text-box">
+                            <span class="wa-title">Sugestão / Upgrade</span>
+                            <span class="wa-subtitle">Ideias para evoluir</span>
+                        </div>
+                    </div>
+                    <span class="wa-arrow">➔</span>
+                </a>
+                <a href="https://wa.me/5551995830380?text=Oi%20vim%20do%20apk%20S-CLASS%20gostaria%20de%20dizer%20que%20est%C3%A1%20muito%20bom%20o%20projeto%20em%3A%20" class="wa-btn" target="_blank">
+                    <div class="wa-btn-content">
+                        <span class="wa-icon">🔥</span>
+                        <div class="wa-text-box">
+                            <span class="wa-title">Elogio</span>
+                            <span class="wa-subtitle">Isso motiva</span>
+                        </div>
+                    </div>
+                    <span class="wa-arrow">➔</span>
+                </a>
+                <a href="https://wa.me/5551995830380?text=Oi%20vim%20do%20apk%20S-CLASS%20e%20estou%20reclamando%20pq%20n%C3%A3o%20est%C3%A1%20bom%20em%3A%20" class="wa-btn" target="_blank">
+                    <div class="wa-btn-content">
+                        <span class="wa-icon">⚠️</span>
+                        <div class="wa-text-box">
+                            <span class="wa-title">Reclamação</span>
+                            <span class="wa-subtitle">Algo não está certo?</span>
+                        </div>
+                    </div>
+                    <span class="wa-arrow">➔</span>
+                </a>
             </div>
         </div>
         <div id="feed-container"></div>
@@ -52,7 +106,9 @@
                 No que puder melhorar e ajudar to aqui
             </p>
             <div class="whatsapp-buttons">
-                <a href="https://wa.me/5551995830380?text=Oi%20mano,%20vim%20falar%20com%20você%20sobre%20o%20app!" class="wa-btn" target="_blank" style="padding: 10px 18px; font-size: 0.85rem;">💬 Falar com o Desenvolvedor</a>
+                <a href="https://wa.me/5551995830380?text=Oi%20mano,%20vim%20falar%20com%20você%20sobre%20o%20app!" class="wa-btn" target="_blank" style="justify-content: center; padding: 12px 18px;">
+                    <span class="wa-title" style="font-size: 0.9rem;">💬 FALE COM O DEV</span>
+                </a>
             </div>
         </section>
     </div>
@@ -72,13 +128,12 @@
             document.getElementById('aba-' + aba).classList.add('active');
         }
 
-        // Elementos do Modal (compartilhado para foto de suporte e banner de topo)
+        // Elementos do Modal
         const imageModal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImg');
         const devPhoto = document.getElementById('devPhoto');
         const bannerBox = document.getElementById('bannerBox');
 
-        // Clicar na foto de suporte para abrir maior
         if (devPhoto) {
             devPhoto.addEventListener('click', () => {
                 modalImg.src = devPhoto.src;
@@ -86,7 +141,6 @@
             });
         }
 
-        // Clicar no banner do topo para abrir maior
         if (bannerBox) {
             const bannerImg = bannerBox.querySelector('img');
             if (bannerImg) {
@@ -101,7 +155,6 @@
             imageModal.classList.remove('active');
         }
 
-        // Fechar também se clicar fora da imagem/botão no fundo escuro
         imageModal.addEventListener('click', (e) => {
             if (e.target === imageModal) {
                 fecharModal();
@@ -161,7 +214,7 @@
                 </div>
             `;
 
-            // Configuração dos vídeos: clica para dar play (loop infinito), clica de outro ou nele pra pausar
+            // Configuração dos vídeos (toca ao clicar, loop infinito, pausa ao clicar em outro ou nele mesmo)
             const videoBox = storyDiv.querySelector('.video-box');
             if (videoBox) {
                 const video = videoBox.querySelector('video');
