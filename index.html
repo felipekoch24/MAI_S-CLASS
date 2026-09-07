@@ -9,6 +9,10 @@
 <body>
 
     <header>
+        <!-- BANNER DE TOPO CLICÁVEL -->
+        <div class="header-banner-box" id="bannerBox">
+            <img src="topo.png" alt="Banner S-Class" class="header-banner" onerror="this.parentElement.style.display='none'">
+        </div>
         <h1>⚡ S-CLASS / STRAY KIDS</h1>
         <p>A força de quem faz acontecer no estilo S-Class.</p>
     </header>
@@ -53,9 +57,10 @@
         </section>
     </div>
 
-    <!-- MODAL PARA ABRIR A FOTO GRANDE -->
-    <div class="modal-overlay" id="imageModal" onclick="fecharModal()">
-        <img class="modal-content" id="modalImg" alt="Foto Ampliada">
+    <!-- MODAL UNIVERSAL COM BOTÃO DE FECHAR EMBAIXO -->
+    <div class="modal-overlay" id="imageModal">
+        <img class="modal-content" id="modalImg" alt="Imagem Ampliada">
+        <button class="modal-close-btn" onclick="fecharModal()">Fechar</button>
     </div>
 
     <script>
@@ -67,11 +72,13 @@
             document.getElementById('aba-' + aba).classList.add('active');
         }
 
-        // Lógica do Modal de Zoom na Foto de Suporte
-        const devPhoto = document.getElementById('devPhoto');
+        // Elementos do Modal (compartilhado para foto de suporte e banner de topo)
         const imageModal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImg');
+        const devPhoto = document.getElementById('devPhoto');
+        const bannerBox = document.getElementById('bannerBox');
 
+        // Clicar na foto de suporte para abrir maior
         if (devPhoto) {
             devPhoto.addEventListener('click', () => {
                 modalImg.src = devPhoto.src;
@@ -79,10 +86,29 @@
             });
         }
 
+        // Clicar no banner do topo para abrir maior
+        if (bannerBox) {
+            const bannerImg = bannerBox.querySelector('img');
+            if (bannerImg) {
+                bannerBox.addEventListener('click', () => {
+                    modalImg.src = bannerImg.src;
+                    imageModal.classList.add('active');
+                });
+            }
+        }
+
         function fecharModal() {
             imageModal.classList.remove('active');
         }
 
+        // Fechar também se clicar fora da imagem/botão no fundo escuro
+        imageModal.addEventListener('click', (e) => {
+            if (e.target === imageModal) {
+                fecharModal();
+            }
+        });
+
+        // Carregamento do feed de vídeos/fotos dinâmico via JSON
         fetch('videos.json')
             .then(response => response.json())
             .then(itens => {
@@ -135,20 +161,18 @@
                 </div>
             `;
 
-            // Configurar comportamento customizado do vídeo (Toca ao clicar, loop infinito, pausa ao clicar de novo ou em outro)
+            // Configuração dos vídeos: clica para dar play (loop infinito), clica de outro ou nele pra pausar
             const videoBox = storyDiv.querySelector('.video-box');
             if (videoBox) {
                 const video = videoBox.querySelector('video');
                 
                 videoBox.addEventListener('click', () => {
-                    // Pausa todos os outros vídeos da página primeiro
                     document.querySelectorAll('video').forEach(v => {
                         if (v !== video) {
                             v.pause();
                         }
                     });
 
-                    // Alterna o estado atual do vídeo clicado
                     if (video.paused) {
                         video.play();
                     } else {
