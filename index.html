@@ -17,7 +17,7 @@
         <p>A força de quem faz acontecer no estilo S-Class.</p>
     </header>
 
-    <!-- SISTEMA DE ABAS (ESTILO PAINEL GRANDE) -->
+    <!-- SISTEMA DE ABAS -->
     <div class="tabs-container">
         <button class="tab-btn active" onclick="mudarAba('todos', this)">
             <div class="tab-info">
@@ -106,10 +106,11 @@
         <div id="recent-container"></div>
     </div>
 
-    <!-- ABA 3: PESQUISAR -->
+    <!-- ABA 3: PESQUISAR (Com botão e suporte a Enter) -->
     <div id="aba-pesquisar" class="tab-content">
         <div class="search-container">
-            <input type="text" id="searchInput" class="search-input" placeholder="🔍 Digite para pesquisar nos títulos ou textos...">
+            <input type="text" id="searchInput" class="search-input" placeholder="🔍 O que você procura? (Pressione Enter)">
+            <button class="search-btn" onclick="executarBusca()">🔍</button>
         </div>
         <div id="search-results-container"></div>
     </div>
@@ -134,7 +135,7 @@
     <!-- BOTÃO FLUTUANTE VOLTAR AO TOPO ⬆️ -->
     <button class="back-to-top-btn" id="backToTopBtn" onclick="voltarAoTopo()">⬆️</button>
 
-    <!-- MODAL UNIVERSAL COM BOTÃO DE FECHAR EMBAIXO -->
+    <!-- MODAL UNIVERSAL -->
     <div class="modal-overlay" id="imageModal">
         <img class="modal-content" id="modalImg" alt="Imagem Ampliada">
         <button class="modal-close-btn" onclick="fecharModal()">Fechar</button>
@@ -149,7 +150,6 @@
             document.getElementById('aba-' + aba).classList.add('active');
         }
 
-        // Botão Flutuante Voltar ao Topo
         const backToTopBtn = document.getElementById('backToTopBtn');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 300) {
@@ -163,7 +163,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Modal para imagens
         const imageModal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImg');
         const devPhoto = document.getElementById('devPhoto');
@@ -196,7 +195,6 @@
             }
         });
 
-        // Carregamento de Dados e Construção dos Cards
         let globalItens = [];
 
         fetch('videos.json')
@@ -207,26 +205,24 @@
                 const recentContainer = document.getElementById('recent-container');
                 const searchContainer = document.getElementById('search-results-container');
                 
-                // Renderizar TODOS
                 itens.forEach(item => {
                     container.appendChild(criarCard(item));
                 });
 
-                // Renderizar RECENTES (últimos 2)
                 const ultimosItens = [...itens].reverse().slice(0, 2);
                 ultimosItens.forEach(item => {
                     recentContainer.appendChild(criarCard(item));
                 });
 
-                // Renderizar Pesquisa Inicial (vazia ou completa)
                 renderizarPesquisa(itens, searchContainer);
             })
             .catch(error => console.error('Erro ao carregar os dados:', error));
 
-        // Lógica de Pesquisa Funcional
+        // Lógica de Pesquisa com Suporte a Enter e Botão
         const searchInput = document.getElementById('searchInput');
-        searchInput.addEventListener('input', (e) => {
-            const termo = e.target.value.toLowerCase().trim();
+
+        function executarBusca() {
+            const termo = searchInput.value.toLowerCase().trim();
             const searchContainer = document.getElementById('search-results-container');
             searchContainer.innerHTML = '';
 
@@ -240,11 +236,23 @@
             });
 
             if (filtrados.length === 0) {
-                searchContainer.innerHTML = '<p style="color: #a0a5c0; margin-top: 20px; font-size: 0.9rem;">Nenhum resultado encontrado. 🤍</p>';
+                searchContainer.innerHTML = '<p style="color: #a0a5c0; margin-top: 20px; font-size: 0.9rem;">Nenhum resultado encontrado para "' + searchInput.value + '". 🤍</p>';
             } else {
                 filtrados.forEach(item => {
                     searchContainer.appendChild(criarCard(item));
                 });
+            }
+        }
+
+        // Disparar busca ao digitar (em tempo real) E também ao apertar "Enter"
+        searchInput.addEventListener('input', () => {
+            executarBusca();
+        });
+
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                executarBusca();
+                searchInput.blur(); // Esconde o teclado virtual no celular ao dar Enter
             }
         });
 
@@ -255,7 +263,6 @@
             });
         }
 
-        // Função Criar Card com Vídeo Carregando Um por Vez, Controles e Curtir
         function criarCard(item) {
             const storyDiv = document.createElement('div');
             storyDiv.className = 'story-container';
@@ -302,14 +309,12 @@
                 </div>
             `;
 
-            // Configuração dos Vídeos (Toca ao clicar, pausa em outro, barra de progresso e fullscreen)
             const videoBox = storyDiv.querySelector('.video-box');
             if (videoBox) {
                 const video = videoBox.querySelector('video');
                 const progressBar = videoBox.querySelector('.video-progress-bar');
                 const fullscreenBtn = videoBox.querySelector('.video-fullscreen-btn');
 
-                // Clicar no vídeo para dar play/pause
                 videoBox.addEventListener('click', (e) => {
                     if (e.target.closest('.video-custom-controls')) return;
 
@@ -326,7 +331,6 @@
                     }
                 });
 
-                // Atualizar barra de progresso conforme o vídeo toca
                 video.addEventListener('timeupdate', () => {
                     if (video.duration) {
                         const percent = (video.currentTime / video.duration) * 100;
@@ -334,7 +338,6 @@
                     }
                 });
 
-                // Permitir arrastar a barra de progresso
                 progressBar.addEventListener('input', () => {
                     if (video.duration) {
                         const time = (progressBar.value / 100) * video.duration;
@@ -342,7 +345,6 @@
                     }
                 });
 
-                // Botão de expandir/aumentar vídeo (Tela Cheia)
                 fullscreenBtn.addEventListener('click', () => {
                     if (video.requestFullscreen) {
                         video.requestFullscreen();
@@ -355,7 +357,6 @@
             return storyDiv;
         }
 
-        // Função do Botão Curtir 🤍
         function toggleCurtir(btn) {
             btn.classList.toggle('liked');
             const countSpan = btn.querySelector('.like-count');
