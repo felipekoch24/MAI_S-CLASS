@@ -12,6 +12,32 @@ body {
     flex-direction: column;
     align-items: center;
     padding: 20px 15px 40px 15px;
+    scroll-behavior: smooth;
+}
+
+/* --- BARRA DE PESQUISA FUNCIONAL --- */
+.search-container {
+    width: 100%;
+    max-width: 550px;
+    margin-bottom: 20px;
+}
+
+.search-input {
+    width: 100%;
+    background: #12131c;
+    border: 1px solid rgba(255, 0, 85, 0.4);
+    padding: 14px 18px;
+    border-radius: 14px;
+    color: #fff;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.search-input:focus {
+    border-color: #ff0055;
+    box-shadow: 0 0 15px rgba(255, 0, 85, 0.4);
 }
 
 /* --- SISTEMA DE ABAS (ESTILO PAINEL GRANDE) --- */
@@ -37,8 +63,6 @@ body {
     justify-content: space-between;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    position: relative;
-    overflow: hidden;
 }
 
 .tab-info {
@@ -86,11 +110,6 @@ body {
     background: #161824;
 }
 
-.tab-btn:hover .tab-arrow {
-    transform: translateX(3px);
-    opacity: 1;
-}
-
 .tab-btn.active {
     background: linear-gradient(135deg, #181926 0%, #12131c 100%);
     border-color: #ff0055;
@@ -100,10 +119,6 @@ body {
 .tab-btn.active .tab-title {
     color: #ff0055;
     text-shadow: 0 0 8px rgba(255, 0, 85, 0.5);
-}
-
-.tab-btn.active .tab-arrow {
-    opacity: 1;
 }
 
 .tab-content {
@@ -117,7 +132,7 @@ body {
     display: flex;
 }
 
-/* Barra de Ações Rápidas no Topo (Estilo Painel Moderno) */
+/* Barra de Ações Rápidas no Topo */
 .top-action-bar {
     width: 100%;
     max-width: 550px;
@@ -213,7 +228,6 @@ header {
     max-width: 550px;
 }
 
-/* Estilo do Banner de Topo */
 .header-banner-box {
     width: 100%;
     border-radius: 16px;
@@ -254,7 +268,7 @@ header p {
     letter-spacing: 1px;
 }
 
-#feed-container, #recent-container {
+#feed-container, #recent-container, #search-results-container {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -287,11 +301,12 @@ header p {
     display: block;
 }
 
+/* Container do Vídeo e Controles de Progresso Customizados */
 .video-box {
     width: 100%;
     background: #000;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     position: relative;
     cursor: pointer;
 }
@@ -301,6 +316,49 @@ header p {
     max-height: 650px;
     object-fit: contain;
     display: block;
+}
+
+/* Barra de Progresso Customizada do Vídeo */
+.video-custom-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(18, 19, 28, 0.9);
+    padding: 10px 14px;
+    border-top: 1px solid rgba(255, 0, 85, 0.2);
+}
+
+.video-progress-bar {
+    flex: 1;
+    appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: #2a2c3d;
+    outline: none;
+    cursor: pointer;
+}
+
+.video-progress-bar::-webkit-slider-thumb {
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ff0055;
+    cursor: pointer;
+    box-shadow: 0 0 6px rgba(255, 0, 85, 0.8);
+}
+
+.video-fullscreen-btn {
+    background: none;
+    border: none;
+    color: #ff0055;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.video-fullscreen-btn:hover {
+    transform: scale(1.2);
 }
 
 .story-content {
@@ -322,11 +380,41 @@ header p {
     text-transform: uppercase;
 }
 
+.story-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
 .story-content h2 {
     font-size: 1.3rem;
     color: #fff;
-    margin-bottom: 10px;
     font-weight: 700;
+}
+
+/* Botão Curtir 🤍 */
+.like-btn {
+    background: #161824;
+    border: 1px solid rgba(255, 0, 85, 0.3);
+    color: #a0a5c0;
+    font-size: 1.2rem;
+    padding: 6px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.like-btn.liked {
+    background: rgba(255, 0, 85, 0.15);
+    border-color: #ff0055;
+    color: #ff0055;
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(255, 0, 85, 0.4);
 }
 
 .story-content blockquote {
@@ -345,7 +433,7 @@ header p {
     line-height: 1.6;
 }
 
-/* Estilo da Seção de Suporte do Desenvolvedor */
+/* Seção de Suporte do Desenvolvedor */
 .dev-section {
     max-width: 550px;
     width: 100%;
@@ -383,7 +471,33 @@ header p {
     text-align: center;
 }
 
-/* --- MODAL COM BOTÃO DE FECHAR --- */
+/* Botão Flutuante Voltar ao Topo ⬆️ */
+.back-to-top-btn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: #ff0055;
+    color: #fff;
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(255, 0, 85, 0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.back-to-top-btn:hover {
+    background: #d00045;
+    transform: scale(1.1);
+}
+
+/* Modal Universal */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -435,4 +549,4 @@ header p {
 @keyframes zoomIn {
     from { transform: scale(0.7); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
-}
+    }
