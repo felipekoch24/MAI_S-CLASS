@@ -14,7 +14,7 @@
             <img src="topo.png" alt="Banner S-Class" class="header-banner" onerror="this.parentElement.style.display='none'">
         </div>
         <h1>⚡ S-CLASS / STRAY KIDS</h1>
-        <p>A FORÇA de quem faz ACONTECER no estilo S-Class.</p>
+        <p>A força de quem faz acontecer no estilo S-Class.</p>
     </header>
 
     <!-- SISTEMA DE ABAS (ESTILO PAINEL GRANDE) -->
@@ -35,6 +35,16 @@
                 <div class="tab-text-box">
                     <span class="tab-title">RECENTES</span>
                     <span class="tab-subtitle">Últimos adicionados</span>
+                </div>
+            </div>
+            <span class="tab-arrow">➔</span>
+        </button>
+        <button class="tab-btn" onclick="mudarAba('pesquisar', this)">
+            <div class="tab-info">
+                <span class="tab-icon">🔍</span>
+                <div class="tab-text-box">
+                    <span class="tab-title">PESQUISAR</span>
+                    <span class="tab-subtitle">Encontrar conteúdo</span>
                 </div>
             </div>
             <span class="tab-arrow">➔</span>
@@ -96,7 +106,15 @@
         <div id="recent-container"></div>
     </div>
 
-    <!-- ABA 3: SUPORTE -->
+    <!-- ABA 3: PESQUISAR -->
+    <div id="aba-pesquisar" class="tab-content">
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="🔍 Digite para pesquisar nos títulos ou textos...">
+        </div>
+        <div id="search-results-container"></div>
+    </div>
+
+    <!-- ABA 4: SUPORTE -->
     <div id="aba-suporte" class="tab-content">
         <section class="dev-section">
             <img src="dev.png" alt="Desenvolvedor" class="dev-avatar" id="devPhoto" onerror="this.style.display='none'">
@@ -107,11 +125,14 @@
             </p>
             <div class="whatsapp-buttons">
                 <a href="https://wa.me/5551995830380?text=Oi%20mano,%20vim%20falar%20com%20você%20sobre%20o%20app!" class="wa-btn" target="_blank" style="justify-content: center; padding: 12px 18px;">
-                    <span class="wa-title" style="font-size: 0.9rem;">💬 FALE COM O DEV</span>
+                    <span class="wa-title" style="font-size: 0.9rem;">💬 Falar com o Desenvolvedor</span>
                 </a>
             </div>
         </section>
     </div>
+
+    <!-- BOTÃO FLUTUANTE VOLTAR AO TOPO ⬆️ -->
+    <button class="back-to-top-btn" id="backToTopBtn" onclick="voltarAoTopo()">⬆️</button>
 
     <!-- MODAL UNIVERSAL COM BOTÃO DE FECHAR EMBAIXO -->
     <div class="modal-overlay" id="imageModal">
@@ -128,7 +149,21 @@
             document.getElementById('aba-' + aba).classList.add('active');
         }
 
-        // Elementos do Modal
+        // Botão Flutuante Voltar ao Topo
+        const backToTopBtn = document.getElementById('backToTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.style.display = 'flex';
+            } else {
+                backToTopBtn.style.display = 'none';
+            }
+        });
+
+        function voltarAoTopo() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Modal para imagens
         const imageModal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImg');
         const devPhoto = document.getElementById('devPhoto');
@@ -161,24 +196,66 @@
             }
         });
 
-        // Carregamento do feed de vídeos/fotos dinâmico via JSON
+        // Carregamento de Dados e Construção dos Cards
+        let globalItens = [];
+
         fetch('videos.json')
             .then(response => response.json())
             .then(itens => {
+                globalItens = itens;
                 const container = document.getElementById('feed-container');
                 const recentContainer = document.getElementById('recent-container');
+                const searchContainer = document.getElementById('search-results-container');
                 
+                // Renderizar TODOS
                 itens.forEach(item => {
                     container.appendChild(criarCard(item));
                 });
 
+                // Renderizar RECENTES (últimos 2)
                 const ultimosItens = [...itens].reverse().slice(0, 2);
                 ultimosItens.forEach(item => {
                     recentContainer.appendChild(criarCard(item));
                 });
+
+                // Renderizar Pesquisa Inicial (vazia ou completa)
+                renderizarPesquisa(itens, searchContainer);
             })
             .catch(error => console.error('Erro ao carregar os dados:', error));
 
+        // Lógica de Pesquisa Funcional
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', (e) => {
+            const termo = e.target.value.toLowerCase().trim();
+            const searchContainer = document.getElementById('search-results-container');
+            searchContainer.innerHTML = '';
+
+            const filtrados = globalItens.filter(item => {
+                return (
+                    (item.titulo && item.titulo.toLowerCase().includes(termo)) ||
+                    (item.descricao && item.descricao.toLowerCase().includes(termo)) ||
+                    (item.citacao && item.citacao.toLowerCase().includes(termo)) ||
+                    (item.nivel && item.nivel.toLowerCase().includes(termo))
+                );
+            });
+
+            if (filtrados.length === 0) {
+                searchContainer.innerHTML = '<p style="color: #a0a5c0; margin-top: 20px; font-size: 0.9rem;">Nenhum resultado encontrado. 🤍</p>';
+            } else {
+                filtrados.forEach(item => {
+                    searchContainer.appendChild(criarCard(item));
+                });
+            }
+        });
+
+        function renderizarPesquisa(itens, containerDestino) {
+            containerDestino.innerHTML = '';
+            itens.forEach(item => {
+                containerDestino.appendChild(criarCard(item));
+            });
+        }
+
+        // Função Criar Card com Vídeo Carregando Um por Vez, Controles e Curtir
         function criarCard(item) {
             const storyDiv = document.createElement('div');
             storyDiv.className = 'story-container';
@@ -196,10 +273,14 @@
             if (item.src) {
                 htmlMidia += `
                     <div class="video-box">
-                        <video loop playsinline preload="metadata">
+                        <video loop playsinline preload="none">
                             <source src="${item.src}" type="video/mp4">
                             Seu navegador não suporta vídeos.
                         </video>
+                        <div class="video-custom-controls" onclick="event.stopPropagation()">
+                            <input type="range" class="video-progress-bar" value="0" min="0" max="100" step="0.1">
+                            <button class="video-fullscreen-btn" title="Tela Cheia">⛶</button>
+                        </div>
                     </div>
                 `;
             }
@@ -207,19 +288,31 @@
             storyDiv.innerHTML = `
                 ${htmlMidia}
                 <div class="story-content">
-                    <span class="tag-nivel">${item.nivel || 'RANK: S-CLASS'}</span>
-                    <h2>${item.titulo}</h2>
+                    <div class="story-header-flex">
+                        <div>
+                            <span class="tag-nivel">${item.nivel || 'RANK: S-CLASS'}</span>
+                            <h2>${item.titulo}</h2>
+                        </div>
+                        <button class="like-btn" onclick="toggleCurtir(this)">
+                            🤍 <span class="like-count">0</span>
+                        </button>
+                    </div>
                     <blockquote>"${item.citacao}"</blockquote>
                     <p>${item.descricao}</p>
                 </div>
             `;
 
-            // Configuração dos vídeos (toca ao clicar, loop infinito, pausa ao clicar em outro ou nele mesmo)
+            // Configuração dos Vídeos (Toca ao clicar, pausa em outro, barra de progresso e fullscreen)
             const videoBox = storyDiv.querySelector('.video-box');
             if (videoBox) {
                 const video = videoBox.querySelector('video');
-                
-                videoBox.addEventListener('click', () => {
+                const progressBar = videoBox.querySelector('.video-progress-bar');
+                const fullscreenBtn = videoBox.querySelector('.video-fullscreen-btn');
+
+                // Clicar no vídeo para dar play/pause
+                videoBox.addEventListener('click', (e) => {
+                    if (e.target.closest('.video-custom-controls')) return;
+
                     document.querySelectorAll('video').forEach(v => {
                         if (v !== video) {
                             v.pause();
@@ -232,9 +325,49 @@
                         video.pause();
                     }
                 });
+
+                // Atualizar barra de progresso conforme o vídeo toca
+                video.addEventListener('timeupdate', () => {
+                    if (video.duration) {
+                        const percent = (video.currentTime / video.duration) * 100;
+                        progressBar.value = percent;
+                    }
+                });
+
+                // Permitir arrastar a barra de progresso
+                progressBar.addEventListener('input', () => {
+                    if (video.duration) {
+                        const time = (progressBar.value / 100) * video.duration;
+                        video.currentTime = time;
+                    }
+                });
+
+                // Botão de expandir/aumentar vídeo (Tela Cheia)
+                fullscreenBtn.addEventListener('click', () => {
+                    if (video.requestFullscreen) {
+                        video.requestFullscreen();
+                    } else if (video.webkitRequestFullscreen) {
+                        video.webkitRequestFullscreen();
+                    }
+                });
             }
 
             return storyDiv;
+        }
+
+        // Função do Botão Curtir 🤍
+        function toggleCurtir(btn) {
+            btn.classList.toggle('liked');
+            const countSpan = btn.querySelector('.like-count');
+            let count = parseInt(countSpan.textContent);
+
+            if (btn.classList.contains('liked')) {
+                countSpan.textContent = count + 1;
+                btn.innerHTML = '❤️ <span class="like-count">' + (count + 1) + '</span>';
+            } else {
+                countSpan.textContent = count - 1;
+                btn.innerHTML = '🤍 <span class="like-count">' + (count - 1) + '</span>';
+            }
         }
     </script>
 
