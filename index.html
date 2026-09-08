@@ -106,7 +106,7 @@
         <div id="recent-container"></div>
     </div>
 
-    <!-- ABA 3: PESQUISAR (Com botão e suporte a Enter) -->
+    <!-- ABA 3: PESQUISAR -->
     <div id="aba-pesquisar" class="tab-content">
         <div class="search-container">
             <input type="text" id="searchInput" class="search-input" placeholder="🔍 O que você procura? (Pressione Enter)">
@@ -142,7 +142,16 @@
     </div>
 
     <script>
+        function pausarTodosVideos() {
+            document.querySelectorAll('video').forEach(v => {
+                v.pause();
+                v.currentTime = 0; // Opcional, garante reset limpo se preferir, ou apenas pause()
+            });
+        }
+
         function mudarAba(aba, elementoBtn) {
+            pausarTodosVideos();
+
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
 
@@ -218,10 +227,11 @@
             })
             .catch(error => console.error('Erro ao carregar os dados:', error));
 
-        // Lógica de Pesquisa com Suporte a Enter e Botão
         const searchInput = document.getElementById('searchInput');
 
         function executarBusca() {
+            pausarTodosVideos();
+
             const termo = searchInput.value.toLowerCase().trim();
             const searchContainer = document.getElementById('search-results-container');
             searchContainer.innerHTML = '';
@@ -244,7 +254,6 @@
             }
         }
 
-        // Disparar busca ao digitar (em tempo real) E também ao apertar "Enter"
         searchInput.addEventListener('input', () => {
             executarBusca();
         });
@@ -252,12 +261,12 @@
         searchInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 executarBusca();
-                searchInput.blur(); // Esconde o teclado virtual no celular ao dar Enter
+                searchInput.blur();
             }
         });
 
         function renderizarPesquisa(itens, containerDestino) {
-            containerDestino.innerHTML = '';
+            containerDestino.innerHTML  = '';
             itens.forEach(item => {
                 containerDestino.appendChild(criarCard(item));
             });
@@ -278,6 +287,7 @@
             }
 
             if (item.src) {
+                // Atributo preload="none" e sem autoplay garantem que o APK não carregue o vídeo ao abrir
                 htmlMidia += `
                     <div class="video-box">
                         <video loop playsinline preload="none">
@@ -315,17 +325,21 @@
                 const progressBar = videoBox.querySelector('.video-progress-bar');
                 const fullscreenBtn = videoBox.querySelector('.video-fullscreen-btn');
 
+                // Lógica estrita: Clicou no vídeo, pausa todos os outros e alterna apenas este
                 videoBox.addEventListener('click', (e) => {
                     if (e.target.closest('.video-custom-controls')) return;
 
+                    const estavaPausado = video.paused;
+
+                    // Força a parada imediata de qualquer outro vídeo rodando no app
                     document.querySelectorAll('video').forEach(v => {
                         if (v !== video) {
                             v.pause();
                         }
                     });
 
-                    if (video.paused) {
-                        video.play();
+                    if (estavaPausado) {
+                        video.play().catch(err => console.log("Erro ao reproduzir no APK:", err));
                     } else {
                         video.pause();
                     }
